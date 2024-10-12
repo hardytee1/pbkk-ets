@@ -83,7 +83,7 @@ class BlogController extends Controller
         // Validate the request data
         $request->validate([
             'caption' => 'required',
-            'image_path' => 'required|url',
+            'image_path' => 'required',
         ]);
 
         // Update the post with the new data
@@ -101,5 +101,11 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         //
+        if ($blog->user_id !== auth()->id()) {
+            return redirect()->route('dashboard')->with('error', 'You are not authorized to delete this post.');
+        }
+        $blog->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Post deleted successfully!');
     }
 }

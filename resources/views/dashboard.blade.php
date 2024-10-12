@@ -38,11 +38,11 @@
                             </form> --}}
                             @if (Auth::id() === $blog->user_id)
                                 <a href="{{ route('blogs.edit', $blog->id) }}" class="inline-block px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">Edit</a>
-                                {{-- <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline-block">
+                                <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="inline-block px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600">Delete</button>
-                                </form>--}}
+                                </form>
                             @endif  
                         </li>
                     @endforeach

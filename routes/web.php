@@ -14,6 +14,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
     Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
     Route::patch('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+
+    Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
 });
 
 Route::middleware('auth')->group(function () {

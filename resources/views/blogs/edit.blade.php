@@ -20,8 +20,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="image_url" class="block text-sm font-medium text-gray-700">Image URL</label>
-                            <input type="text" name="image_url" id="image_url" value="{{ $blog->image_path }}" class="mt-1 p-2 w-full border-gray-300 rounded-md">
+                            <label for="image_path" class="block text-sm font-medium text-gray-700">Image URL</label>
+                            <input type="text" name="image_path" id="image_path" value="{{ $blog->image_path }}" class="mt-1 p-2 w-full border-gray-300 rounded-md">
                         </div>
 
                         <div class="mt-6">
