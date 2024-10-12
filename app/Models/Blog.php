@@ -13,6 +13,7 @@ class Blog extends Model
         'caption',
         'image_path',
         'like_count',
+        'user_id',
     ];
 
     public function user()

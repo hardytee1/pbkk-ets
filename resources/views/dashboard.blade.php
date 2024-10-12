@@ -15,6 +15,12 @@
         </div>
     </div>
 
+    <div class="mt-6">
+                        <a href="{{ route('blogs.create') }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600">
+                            Create New Post
+                        </a>
+                    </div>
+
     <h2 class="mt-4 text-xl font-semibold">All Blogs</h2>
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6">
@@ -29,15 +35,15 @@
                             {{-- <form action="{{ route('like.store', $post->id) }}" method="POST" class="inline-block">
                                 @csrf
                                 <button type="submit" class="px-4 py-2 bg-pink-500 text-white rounded-md shadow-md hover:bg-pink-600">Like Post</button>
-                            </form>
+                            </form> --}}
                             @if (Auth::id() === $blog->user_id)
-                                <a href="{{ route('posts.edit', $post->id) }}" class="inline-block px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">Edit</a>
-                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline-block">
+                                <a href="{{ route('blogs.edit', $blog->id) }}" class="inline-block px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">Edit</a>
+                                {{-- <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="inline-block px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600">Delete</button>
-                                </form>
-                            @endif  --}}
+                                </form>--}}
+                            @endif  
                         </li>
                     @endforeach
                 </ul>
