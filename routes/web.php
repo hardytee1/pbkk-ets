@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\LikesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
 
     Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+    Route::post('/like/{blog}', [LikesController::class, 'store'])->name('like.store');
 });
 
 Route::middleware('auth')->group(function () {

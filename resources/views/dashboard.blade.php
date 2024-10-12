@@ -32,10 +32,10 @@
                             <img src="{{ $blog->image_path }}" alt="{{ $blog->caption }}" class="mt-1 w-3/6 h-auto">
                             <h3 class="text-lg font-semibold">{{ $blog->caption }}</h3>
                             <h2 class="text-lg font-semibold">Number of likes: {{ $blog->like_count }}</h2>
-                            {{-- <form action="{{ route('like.store', $post->id) }}" method="POST" class="inline-block">
+                            <form action="{{ route('like.store', $blog->id) }}" method="POST" class="inline-block">
                                 @csrf
                                 <button type="submit" class="px-4 py-2 bg-pink-500 text-white rounded-md shadow-md hover:bg-pink-600">Like Post</button>
-                            </form> --}}
+                            </form>
                             @if (Auth::id() === $blog->user_id)
                                 <a href="{{ route('blogs.edit', $blog->id) }}" class="inline-block px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600">Edit</a>
                                 <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" class="inline-block">
