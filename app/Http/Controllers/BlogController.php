@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -23,6 +24,7 @@ class BlogController extends Controller
     public function create()
     {
         //
+        return view('blogs.create');
     }
 
     /**
@@ -31,6 +33,20 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'caption' => 'required',
+            'image_path' => 'required|url',
+        ]);
+
+        $user = Auth::user();
+
+        $post = new Blog();
+        $post->caption = $request->caption;
+        $post->image_path = $request->image_path;
+        $post->user_id = $user->id;
+        $post->save();
+
+        return redirect()->route('dashboard')->with('success', 'Blog created successfully!');
     }
 
     /**
@@ -47,6 +63,11 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
         //
+        if ($blog->user_id !== auth()->id()) {
+            return redirect()->route('dashboard')->with('error', 'You are not authorized to edit this blog.');
+        }
+
+        return view('blogs.edit', compact('blog'));
     }
 
     /**
@@ -55,6 +76,23 @@ class BlogController extends Controller
     public function update(Request $request, Blog $blog)
     {
         //
+        if ($blog->user_id !== auth()->id()) {
+            return redirect()->route('dashboard')->with('error', 'You are not authorized to update this blog.');
+        }
+
+        // Validate the request data
+        $request->validate([
+            'caption' => 'required',
+            'image_path' => 'required',
+        ]);
+
+        // Update the post with the new data
+        $blog->update([
+            'caption' => $request->caption,
+            'image_path' => $request->image_path,
+        ]);
+        
+        return redirect()->route('dashboard')->with('success', 'Blog updated successfully!');
     }
 
     /**
@@ -63,5 +101,11 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         //
+        if ($blog->user_id !== auth()->id()) {
+            return redirect()->route('dashboard')->with('error', 'You are not authorized to delete this post.');
+        }
+        $blog->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Post deleted successfully!');
     }
 }
