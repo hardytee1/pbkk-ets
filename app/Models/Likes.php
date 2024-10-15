@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Likes extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'post_id'];
+    protected $fillable = ['user_id', 'blog_id'];
 
     // Define the relationship with User model
     public function user()

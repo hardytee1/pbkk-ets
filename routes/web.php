@@ -17,7 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
 
     Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+    Route::get('user/bio/{id}', [BlogController::class, 'show'])->name('bio.show');
+    Route::patch('/user/bio/create/{user}', [BlogController::class, 'bio_store'])->name('bio.store');
+
     Route::post('/like/{blog}', [LikesController::class, 'store'])->name('like.store');
+    Route::post('/like/bio/{blog}', [LikesController::class, 'bio_store'])->name('like.bio_store');
 });
 
 Route::middleware('auth')->group(function () {

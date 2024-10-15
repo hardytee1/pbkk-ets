@@ -1,34 +1,45 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Dashboard') }}
-            </h2>
-            <a href="{{ route('blogs.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
-                Create New Post
-            </a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Profile') }}
+        </h2>
     </x-slot>
 
-    <script>
-        function toggleLikes(blogId) {
-            // Get the list of users and the button
-            var likesList = document.getElementById('likesList' + blogId);
-            var showLikesBtn = document.getElementById('showLikesBtn' + blogId);
-            
-            // Toggle the visibility
-            if (likesList.classList.contains('hidden')) {
-                likesList.classList.remove('hidden');
-                showLikesBtn.innerHTML = 'Hide who liked this';
-            } else {
-                likesList.classList.add('hidden');
-                showLikesBtn.innerHTML = 'Show who liked this';
-            }
-        }
-    </script>
-
-
     <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-2">Name: {{ $user->name }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Bio: {{ $user->bio ?? 'No bio available' }}</p>
+
+                @if (Auth::id() === $user->id) <!-- Check if the authenticated user's ID matches the user's ID -->
+                    <button id="editBioBtn" class="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition duration-300 ease-in-out" onclick="toggleBioForm()">
+                        Edit Bio
+                    </button>
+
+                    <div id="bioForm" class="mt-4 hidden">
+                        @if (empty($user->bio)) <!-- Check if the bio is empty -->
+                            <form action="{{ route('bio.store', $user->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <textarea name="bio" rows="4" class="w-full border rounded-md p-2" placeholder="Write your bio..."></textarea>
+                                <button type="submit" class="mt-2 inline-block px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
+                                    Create Bio
+                                </button>
+                            </form>
+                        @else <!-- If bio exists, show the update form -->
+                            <form action="{{ route('bio.store', $user->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <textarea name="bio" rows="4" class="w-full border rounded-md p-2">{{ $user->bio }}</textarea>
+                                <button type="submit" class="mt-2 inline-block px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 transition duration-300 ease-in-out">
+                                    Update Bio
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                @endif
+
+                <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 p-6">
                 @if ($blogs && $blogs->count() > 0)
@@ -39,9 +50,6 @@
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
                                 Posted by: {{ $blog->user->name }}
                             </p>
-                            <a href="{{ route('bio.show', $blog->user->id) }}" class="ml-2 inline-flex items-center bg-blue-500 text-white px-4 py-1 text-sm rounded-md hover:bg-blue-600 transition duration-300 ease-in-out">
-                                &#8594; Profile
-                            </a>
 
                         </div>
 
@@ -85,7 +93,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <form action="{{ route('like.store', $blog->id) }}" method="POST">
+                            <form action="{{ route('like.bio_store', $blog->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">Like</button>
                             </form>
@@ -100,4 +108,29 @@
             </div>
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleBioForm() {
+            const bioForm = document.getElementById('bioForm');
+            bioForm.classList.toggle('hidden'); // Toggle the hidden class
+        }
+
+        function toggleLikes(blogId) {
+            // Get the list of users and the button
+            var likesList = document.getElementById('likesList' + blogId);
+            var showLikesBtn = document.getElementById('showLikesBtn' + blogId);
+            
+            // Toggle the visibility
+            if (likesList.classList.contains('hidden')) {
+                likesList.classList.remove('hidden');
+                showLikesBtn.innerHTML = 'Hide who liked this';
+            } else {
+                likesList.classList.add('hidden');
+                showLikesBtn.innerHTML = 'Show who liked this';
+            }
+        }
+    </script>
 </x-app-layout>

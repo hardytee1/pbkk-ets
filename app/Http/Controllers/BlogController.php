@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Likes;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +15,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::all();
+        $blogs = Blog::with('likes.user')->get();
 
         return view('dashboard', compact('blogs'));
     }
@@ -52,10 +54,29 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Blog $blog)
+    public function show($id)
     {
-        //
+        $user = User::find($id);
+        $blogs = $user->blogs;
+
+        return view('bio.show', compact('user', 'blogs'));
     }
+    
+    public function bio_store(Request $request, User $user)
+    {
+        $request->validate([
+            'bio' => 'required',
+        ]);
+
+        $user->update([
+            'bio' => $request->bio,
+        ]);
+
+        $blogs = $user->blogs;
+
+        return view('bio.show', compact('user', 'blogs'));
+    }
+    
 
     /**
      * Show the form for editing the specified resource.
