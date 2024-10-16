@@ -40,7 +40,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach ($blogs as $blog)
                 <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 ease-in-out hover:shadow-2xl">
-                    <img src="{{ $blog->image_path }}" alt="{{ $blog->caption }}" class="w-full h-64 object-cover">
+                    <img src="{{ asset('storage/' . $blog->image_path) }}" alt="{{ $blog->caption }}" class="w-full h-64 object-cover">
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center space-x-2">

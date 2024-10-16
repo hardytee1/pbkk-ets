@@ -45,10 +45,10 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg p-6">
                 <h3 class="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Posts</h3>
                 @if ($blogs && $blogs->count() > 0)
-                <div class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach ($blogs as $blog)
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden shadow-md transition duration-300 ease-in-out hover:shadow-lg">
-                        <img src="{{ $blog->image_path }}" alt="{{ $blog->caption }}" class="w-full h-64 object-cover">
+                        <img src="{{ asset('storage/' . $blog->image_path) }}" alt="{{ $blog->caption }}" class="w-full h-64 object-cover">
                         <div class="p-6">
                             <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">{{ $blog->caption }}</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">

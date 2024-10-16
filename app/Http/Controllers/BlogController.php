@@ -37,14 +37,16 @@ class BlogController extends Controller
         //
         $request->validate([
             'caption' => 'required',
-            'image_path' => 'required|url',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
+
+        $imagePath = $request->file('image_path')->store('uploads', 'public');
 
         $user = Auth::user();
 
         $post = new Blog();
         $post->caption = $request->caption;
-        $post->image_path = $request->image_path;
+        $post->image_path = $imagePath;
         $post->user_id = $user->id;
         $post->save();
 
@@ -104,13 +106,15 @@ class BlogController extends Controller
         // Validate the request data
         $request->validate([
             'caption' => 'required',
-            'image_path' => 'required',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
+
+        $imagePath = $request->file('image_path')->store('uploads', 'public');
 
         // Update the post with the new data
         $blog->update([
             'caption' => $request->caption,
-            'image_path' => $request->image_path,
+            'image_path' => $imagePath,
         ]);
         
         return redirect()->route('dashboard')->with('success', 'Blog updated successfully!');

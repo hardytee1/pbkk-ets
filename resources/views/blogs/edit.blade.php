@@ -10,7 +10,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <form action="{{ route('blogs.update', $blog->id) }}" method="POST">
+                    <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
 
@@ -20,8 +20,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="image_path" class="block text-sm font-medium text-gray-700">Image URL</label>
-                            <input type="text" name="image_path" id="image_path" value="{{ $blog->image_path }}" class="mt-1 p-2 w-full border-gray-300 rounded-md">
+                            <label for="image_path" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="file" name="image_path" id="image_path" accept="image/jpeg,image/png" value="{{ $blog->image_path }}" class="mt-1 p-2 w-full border-gray-300 rounded-md">
                         </div>
 
                         <div class="mt-6">
